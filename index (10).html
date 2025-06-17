@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuizMaster - Encontre Respostas do Quizizz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0f172a;
+            background-image: 
+                linear-gradient(#1e293b 1px, transparent 1px),
+                linear-gradient(90deg, #1e293b 1px, transparent 1px);
+            background-size: 30px 30px;
+            color: #e2e8f0;
+            min-height: 100vh;
+        }
+        
+        .glow-effect {
+            box-shadow: 0 0 15px rgba(56, 182, 255, 0.3);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(90deg, #38bdf8, #60a5fa);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .animate-item {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        
+        .grid-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(30, 41, 59, 0.7) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(30, 41, 59, 0.7) 1px, transparent 1px);
+            background-size: 30px 30px;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .question-card {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(56, 182, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .question-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(56, 182, 255, 0.1);
+            border-color: rgba(56, 182, 255, 0.3);
+        }
+        
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(56, 182, 255, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(56, 182, 255, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(56, 182, 255, 0);
+            }
+        }
+        
+        .slide-in {
+            animation: slideIn 0.5s forwards;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body class="relative overflow-x-hidden">
+    <div class="grid-pattern"></div>
+    
+    <div class="container mx-auto px-4 py-12 max-w-4xl">
+        <!-- Header -->
+        <header class="text-center mb-12 slide-in">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4 gradient-text">QuizMaster</h1>
+            <p class="text-lg text-slate-400">Encontre as respostas corretas para qualquer quiz do Quizizz</p>
+        </header>
+        
+        <!-- Main Card -->
+        <div class="bg-slate-900/80 backdrop-blur-lg rounded-xl p-6 mb-8 border border-slate-800/50 glow-effect transition-all duration-300 hover:glow-effect-lg">
+            <div class="flex items-center mb-6">
+                <div class="bg-blue-500/20 p-3 rounded-lg mr-4">
+                    <i class="fas fa-info-circle text-blue-400 text-xl"></i>
+                </div>
+                <h2 class="text-xl font-semibold text-blue-400">Como obter as respostas do Quizizz</h2>
+            </div>
+            
+            <!-- Steps -->
+            <div class="space-y-6">
+                <!-- Step 1 -->
+                <div class="flex items-start">
+                    <div class="flex-shrink-0 bg-blue-500/20 w-8 h-8 rounded-full flex items-center justify-center mr-4 mt-1">
+                        <span class="text-blue-400 font-medium">1</span>
+                    </div>
+                    <div>
+                        <p class="text-slate-300">Vá para o site do quiz ao vivo (quizizz.com)</p>
+                    </div>
+                </div>
+                
+                <!-- Step 2 -->
+                <div class="flex items-start">
+                    <div class="flex-shrink-0 bg-blue-500/20 w-8 h-8 rounded-full flex items-center justify-center mr-4 mt-1">
+                        <span class="text-blue-400 font-medium">2</span>
+                    </div>
+                    <div>
+                        <p class="text-slate-300">Localize o ID do Quizziz na URL do navegador</p>
+                    </div>
+                </div>
+                
+                <!-- Code Example -->
+                <div class="bg-slate-800/50 p-4 rounded-lg border border-slate-700/50 ml-12">
+                    <code class="text-slate-300 font-mono break-all">
+                        https://quizizz.com/join?gc=<span class="text-blue-400 font-bold">799792</span>&source=liveDashboard
+                    </code>
+                </div>
+                
+                <!-- Step 3 -->
+                <div class="flex items-start">
+                    <div class="flex-shrink-0 bg-blue-500/20 w-8 h-8 rounded-full flex items-center justify-center mr-4 mt-1">
+                        <span class="text-blue-400 font-medium">3</span>
+                    </div>
+                    <div>
+                        <p class="text-slate-300">Copie apenas o ID do quiz (número destacado) e cole abaixo</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Search Form -->
+        <div class="bg-slate-900/80 backdrop-blur-lg rounded-xl p-6 mb-8 border border-slate-800/50">
+            <div class="flex flex-col md:flex-row gap-4">
+                <input 
+                    type="text" 
+                    id="quiz-code" 
+                    placeholder="Cole o ID do quiz aqui (ex: 799792)" 
+                    class="flex-grow px-4 py-3 rounded-lg bg-slate-800 border border-slate-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500/50 outline-none transition-all duration-200 text-slate-200"
+                >
+                <button 
+                    id="search-btn" 
+                    class="px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg font-medium text-white hover:from-blue-600 hover:to-blue-700 transition-all duration-200 flex items-center justify-center gap-2"
+                >
+                    <i class="fas fa-search"></i> Buscar Respostas
+                </button>
+            </div>
+        </div>
+        
+        <!-- Loading Indicator -->
+        <div id="loading" class="hidden text-center py-8">
+            <div class="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mb-4"></div>
+            <p class="text-slate-400">Buscando respostas...</p>
+        </div>
+        
+        <!-- Error Message -->
+        <div id="error-message" class="hidden bg-red-900/50 border border-red-800 rounded-lg p-4 mb-8 text-red-200"></div>
+        
+        <!-- Results Container -->
+        <div id="results-container" class="hidden">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-xl font-semibold text-blue-400">Respostas Encontradas</h3>
+                <div class="relative">
+                    <input 
+                        type="text" 
+                        id="search-input" 
+                        placeholder="Filtrar respostas..." 
+                        class="px-4 py-2 rounded-lg bg-slate-800 border border-slate-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500/50 outline-none transition-all duration-200 text-slate-200 text-sm"
+                    >
+                    <i class="fas fa-search absolute right-3 top-2.5 text-slate-500 text-sm"></i>
+                </div>
+            </div>
+            
+            <div id="results-list" class="space-y-4"></div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="text-center py-8 text-slate-500 text-sm">
+        <p>QuizMaster não é afiliado ao Quizizz. Use por sua própria conta e risco.</p>
+        <p class="mt-2">© 2023 QuizMaster. Todos os direitos reservados.</p>
+    </footer>
+    
+    <!-- Donation Popup -->
+    <div id="donation-popup" class="hidden fixed inset-0 bg-black/70 z-50 items-center justify-center p-4">
+        <div class="bg-slate-900 rounded-xl p-6 max-w-md w-full border border-slate-800/50 relative">
+            <button class="close-btn absolute top-4 right-4 text-slate-500 hover:text-slate-300">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="text-center">
+                <div class="bg-blue-500/20 p-4 rounded-full inline-block mb-4">
+                    <i class="fas fa-heart text-blue-400 text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-2 text-blue-400">Apoie este projeto</h3>
+                <p class="text-slate-400 mb-4">Se este site te ajudou, considere fazer uma doação para ajudar a mantê-lo online e melhorá-lo ainda mais!</p>
+                <a href="#" id="donate-link" class="inline-block px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg font-medium text-white hover:from-blue-600 hover:to-blue-700 transition-all duration-200">
+                    <i class="fas fa-donate mr-2"></i> Doar Agora
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const quizCodeInput = document.getElementById('quiz-code');
+            const searchBtn = document.getElementById('search-btn');
+            const loading = document.getElementById('loading');
+            const resultsContainer = document.getElementById('results-container');
+            const errorMessage = document.getElementById('error-message');
+            const resultsList = document.getElementById('results-list');
+            const searchInput = document.getElementById('search-input');
+            const donationPopup = document.getElementById('donation-popup');
+            const closeBtn = document.querySelector('.close-btn');
+            const donateLink = document.getElementById('donate-link');
+
+            // Função para buscar as respostas da API
+            function fetchQuizAnswers(quizCode) {
+                if (!quizCode) {
+                    errorMessage.textContent = "Por favor, insira um código de quiz válido.";
+                    errorMessage.style.display = 'block';
+                    return;
+                }
+
+                loading.style.display = 'block';
+                resultsContainer.style.display = 'none';
+                errorMessage.style.display = 'none';
+
+                fetch('https://quizzizapi.squareweb.app/quizizz-answers', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ input: quizCode })
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`Erro na requisição: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.error) {
+                        throw new Error(data.message || 'Erro ao buscar as respostas.');
+                    }
+                    displayResults(data.correctAnswers);
+                })
+                .catch(error => {
+                    console.error('Erro:', error);
+                    showError(`Erro ao buscar as respostas: ${error.message}`);
+                })
+                .finally(() => {
+                    loading.style.display = 'none';
+                });
+            }
+
+            // Exibe as respostas recebidas da API
+            function displayResults(answers) {
+                resultsList.innerHTML = '';
+
+                if (answers && answers.length > 0) {
+                    // Add success message
+                    const successMessage = document.createElement('div');
+                    successMessage.className = 'bg-green-900/20 border border-green-800/50 rounded-lg p-3 mb-4 text-green-300 text-sm success-message';
+                    successMessage.textContent = `Foram encontradas ${answers.length} respostas para este quiz.`;
+                    resultsList.appendChild(successMessage);
+
+                    answers.forEach((item, index) => {
+                        const questionCard = document.createElement('div');
+                        questionCard.className = 'question-card p-5 rounded-lg';
+                        questionCard.innerHTML = `
+                            <div class="question-text font-medium text-slate-200 mb-3">${stripHtmlTags(item.question)}</div>
+                            <div class="answer-wrapper flex items-start">
+                                <div class="bg-green-500/20 p-1.5 rounded mr-3 mt-0.5">
+                                    <i class="fas fa-check text-green-400 text-xs"></i>
+                                </div>
+                                <div class="correct-answer text-slate-300">${stripHtmlTags(item.answer)}</div>
+                            </div>
+                        `;
+                        resultsList.appendChild(questionCard);
+
+                        setTimeout(() => {
+                            questionCard.style.opacity = '1';
+                            questionCard.style.transform = 'translateY(0)';
+                        }, index * 100);
+                    });
+
+                    resultsContainer.style.display = 'block';
+                    
+                    // Scroll to results
+                    setTimeout(() => {
+                        resultsContainer.scrollIntoView({ behavior: 'smooth' });
+                    }, 500);
+                } else {
+                    showError('Nenhuma resposta encontrada para este quiz.');
+                }
+            }
+
+            function stripHtmlTags(html) {
+                const temp = document.createElement('div');
+                temp.innerHTML = html;
+                return temp.textContent || temp.innerText || '';
+            }
+
+            function showError(message) {
+                errorMessage.textContent = message;
+                errorMessage.style.display = 'block';
+                
+                // Scroll to error
+                setTimeout(() => {
+                    errorMessage.scrollIntoView({ behavior: 'smooth' });
+                }, 100);
+            }
+
+            function filterAnswers(searchTerm) {
+                const questionCards = document.querySelectorAll('.question-card');
+                let visibleCount = 0;
+
+                questionCards.forEach(card => {
+                    const questionText = card.querySelector('.question-text').textContent.toLowerCase();
+                    const answerText = card.querySelector('.correct-answer').textContent.toLowerCase();
+                    const searchText = searchTerm.toLowerCase();
+
+                    if (questionText.includes(searchText) || answerText.includes(searchText)) {
+                        card.style.display = 'block';
+                        visibleCount++;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+
+                const successMessage = document.querySelector('.success-message');
+                if (successMessage) {
+                    successMessage.textContent = `Mostrando ${visibleCount} de ${questionCards.length} respostas.`;
+                }
+            }
+
+            searchBtn.addEventListener('click', function () {
+                const quizCode = quizCodeInput.value.trim();
+                fetchQuizAnswers(quizCode);
+            });
+
+            quizCodeInput.addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') {
+                    const quizCode = quizCodeInput.value.trim();
+                    fetchQuizAnswers(quizCode);
+                }
+            });
+
+            searchInput.addEventListener('input', function (e) {
+                const searchTerm = e.target.value;
+                filterAnswers(searchTerm);
+            });
+
+            setTimeout(() => {
+                donationPopup.style.display = 'flex';
+            }, 10000);
+
+            closeBtn.addEventListener('click', function () {
+                donationPopup.style.display = 'none';
+            });
+
+            donationPopup.addEventListener('click', function (event) {
+                if (event.target === donationPopup) {
+                    donationPopup.style.display = 'none';
+                }
+            });
+
+            donateLink.addEventListener('click', function (e) {
+                e.preventDefault();
+                donationPopup.style.display = 'flex';
+            });
+            
+            // Add animation to elements
+            const animatedElements = document.querySelectorAll('.slide-in');
+            animatedElements.forEach((el, index) => {
+                setTimeout(() => {
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+        });
+    </script>
+<p style="border-radius: 8px; text-align: center; font-size: 12px; color: #fff; margin-top: 16px;position: fixed; left: 8px; bottom: 8px; z-index: 10; background: rgba(0, 0, 0, 0.8); padding: 4px 8px;">Made with <img src="https://enzostvs-deepsite.hf.space/logo.svg" alt="DeepSite Logo" style="width: 16px; height: 16px; vertical-align: middle;display:inline-block;margin-right:3px;filter:brightness(0) invert(1);"><a href="https://enzostvs-deepsite.hf.space" style="color: #fff;text-decoration: underline;" target="_blank" >DeepSite</a> - 🧬 <a href="https://enzostvs-deepsite.hf.space?remix=ItachiX123/quizzes" style="color: #fff;text-decoration: underline;" target="_blank" >Remix</a></p></body>
+</html>
